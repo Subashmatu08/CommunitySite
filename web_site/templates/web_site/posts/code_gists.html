@@ -1,0 +1,37 @@
+{% extends "web_site/base.html" %}
+
+{% block content %}
+<div class="container">
+    Code Gists!
+    <a class="btn btn-sm btn-primary" href="{% url "create_gist" category_name %}">Create Gist</a>
+    <div class="row">
+        <div class="col-3">
+            <ul class="list-group shadow-2">
+                <li class="list-group-item">
+                    <a href="{% url "feed_page" category_name %}">Feed</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{% url "blogs_page" category_name %}">blogs</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{% url "code_gists_page" category_name %}">gists</a>
+                </li>
+              </ul>
+        </div>
+        <div class="col-9">
+            <input type="text" class="form-control" placeholder="Search">
+            <div class="my-3">
+                {% for code_gist in code_gists %}
+                <a href="{% url 'view_code_gist' code_gist.id %}">
+                    <div class="card shadow-2">
+                        <div class="card-body">
+                            {{code_gist.coding_platform}}
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

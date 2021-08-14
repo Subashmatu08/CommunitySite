@@ -1,0 +1,25 @@
+{% extends "web_site/base.html" %}
+
+{% block content %}
+<div class="container">
+    Feed!
+    <div class="row">
+        <div class="col-3" >
+            <ul class="list-group shadow-4">
+                <li class="list-group-item">
+                    <a href="{% url "feed_page" category_name %}">Feed</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{% url "blogs_page" category_name %}">blogs</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{% url "code_gists_page" category_name %}">gists</a>
+                </li>
+              </ul>
+        </div>
+        <div class="col-9 content">
+
+        </div>
+    </div>
+</div>
+{% endblock %}

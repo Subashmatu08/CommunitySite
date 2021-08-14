@@ -1,0 +1,17 @@
+{% extends "web_site/auth/base_auth.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="card shadow-4">
+        <div class="card-body">
+            Register
+            <form method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+                <a href="{% url "login" %}">Login?</a>
+                <button type="submit">Sign up</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
