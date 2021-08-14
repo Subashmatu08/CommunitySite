@@ -1,0 +1,39 @@
+{% extends "web_site/base.html" %}
+
+{% block content %}
+<div class="container">
+    <div>
+        <h1>Blogs</h1>
+    </div>
+    <a class="btn btn-sm btn-primary" href="{% url "create_blog" category_name %}">Create Blog</a>
+    <div class="row">
+        <div class="col-3">
+            <div>
+                <ul class="list-group shadow-4">
+                    <li class="list-group-item">
+                        <a href="{% url "feed_page" category_name %}">Feed</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="{% url "blogs_page" category_name %}">blogs</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="{% url "code_gists_page" category_name %}">gists</a>
+                    </li>
+                  </ul>
+            </div>
+        </div>
+        <div class="col-9">
+            {% for blog in blogs %}
+                <a href="{% url 'view_blog' blog.id %}">
+                    <div class="card shadow-2">
+                        <div class="card-body">
+                            <h5 class="card-title">{{blog.title}}</h5>
+                            <p>{{blog.description}}</p>
+                        </div>
+                    </div>
+                </a>
+            {% endfor%}
+        </div>
+    </div>
+</div>
+{% endblock %}
