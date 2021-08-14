@@ -1,29 +1,47 @@
 {% extends "web_site/base.html" %}
 
 {% block content %}
-<div class="container">
-    Code Gists!
-    <a class="btn btn-sm btn-primary" href="{% url "create_gist" category_name %}">Create Gist</a>
-    <div class="row">
-        <div class="col-3">
-            <ul class="list-group shadow-2">
-                <li class="list-group-item">
-                    <a href="{% url "feed_page" category_name %}">Feed</a>
-                </li>
-                <li class="list-group-item">
-                    <a href="{% url "blogs_page" category_name %}">blogs</a>
-                </li>
-                <li class="list-group-item">
-                    <a href="{% url "code_gists_page" category_name %}">gists</a>
-                </li>
-              </ul>
+<div class="container-fluid">
+    <!-- <a class="btn btn-sm btn-primary" href="{% url "create_gist" category_name %}">Create Gist</a> -->
+    <div class="row py-3 gy-5">
+        <div class="col-sm-3 col-md-3" >
+            <ul class="list-group shadow-2 rounded">
+                <a class="rounded-top" href="{% url "feed_page" category_name %}">
+                    <li class="list-group-item text-center">
+                        <!-- <a href="{% url "feed_page" category_name %}">Feed</a> -->
+                        Feed
+                    </li>
+                </a>
+                <a href="{% url "blogs_page" category_name %}">
+                    <li class="list-group-item text-center">
+                        <!-- <a href="{% url "blogs_page" category_name %}">Blogs</a> -->
+                        Blogs
+                    </li>
+                </a>
+                <a class="rounded-bottom" href="{% url "code_gists_page" category_name %}">
+                    <li class="list-group-item text-center">
+                        <!-- <a href="{% url "code_gists_page" category_name %}">Gists</a> -->
+                        Gists
+                     </li>
+                </a>
+            </ul>
+            <a class="rounded btn btn-outline-primary w-full mt-3" href="{% url "create_gist" category_name %}">
+                    <!-- <a href="{% url "code_gists_page" category_name %}">Gists</a> -->
+                    Create a Gist
+            </a>
         </div>
-        <div class="col-9">
-            <input type="text" class="form-control" placeholder="Search">
+
+        <div class="col-md-9">
+            <!-- <input type="text" class="form-control" placeholder="Search"> -->
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit">Search</button>
+              </form>
+            <h3 class="pt-3">Here are some Gists!</h3>
             <div class="my-3">
                 {% for code_gist in code_gists %}
                 <a href="{% url 'view_code_gist' code_gist.id %}">
-                    <div class="card shadow-2">
+                    <div class="card shadow-2 my-5">
                         <div class="card-body">
                             {{code_gist.coding_platform}}
                         </div>

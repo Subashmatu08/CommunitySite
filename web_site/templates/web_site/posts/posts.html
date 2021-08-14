@@ -1,24 +1,37 @@
 {% extends "web_site/base.html" %}
 
 {% block content %}
-<div class="container">
-    Feed!
-    <div class="row">
-        <div class="col-3" >
-            <ul class="list-group shadow-4">
-                <li class="list-group-item">
-                    <a href="{% url "feed_page" category_name %}">Feed</a>
-                </li>
-                <li class="list-group-item">
-                    <a href="{% url "blogs_page" category_name %}">blogs</a>
-                </li>
-                <li class="list-group-item">
-                    <a href="{% url "code_gists_page" category_name %}">gists</a>
-                </li>
+<div class="container-fluid">
+    <div class="row py-3 gy-5">
+        <div class="col-sm-3 col-md-3" >
+            <ul class="list-group shadow-2 rounded">
+                <a class="rounded-top" href="{% url "feed_page" category_name %}">
+                    <li class="list-group-item text-center">
+                        <!-- <a href="{% url "feed_page" category_name %}">Feed</a> -->
+                        Feed
+                    </li>
+                </a>
+                <a href="{% url "blogs_page" category_name %}">
+                    <li class="list-group-item text-center">
+                        <!-- <a href="{% url "blogs_page" category_name %}">Blogs</a> -->
+                        Blogs
+                    </li>
+                </a>
+                <a class="rounded-bottom" href="{% url "code_gists_page" category_name %}">
+                    <li class="list-group-item text-center">
+                        <!-- <a href="{% url "code_gists_page" category_name %}">Gists</a> -->
+                        Gists
+                     </li>
+                </a>
               </ul>
         </div>
-        <div class="col-9 content">
-
+        <div class="col-md-9 content">
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit">Search</button>
+              </form>
+            <h3 class="py-3">Here is your Feed!</h3>
+            <div class="simply" style="min-height:100vh"></div>
         </div>
     </div>
 </div>

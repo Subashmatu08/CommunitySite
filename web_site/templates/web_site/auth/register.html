@@ -1,10 +1,10 @@
 {% extends "web_site/auth/base_auth.html" %}
 
 {% block content %}
-<div class="container">
-    <div class="card shadow-4">
+<div class="container-fluid py-5">
+    <div class="card shadow-2">
         <div class="card-body">
-            Register
+            <div class="h3">Register</div>
             <form method="post">
                 {% csrf_token %}
                 {{form.as_p}}
