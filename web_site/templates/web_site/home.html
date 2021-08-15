@@ -7,7 +7,7 @@
         {% for category in categories %}
         <a class="col-lg-4 col-md-6 col-sm-12 card-group " href="{% url "feed_page" category.category_name %}">
             <div class="card shadow-2 " style="min-height:50vh;">
-                <img src="{{category.image}}" class="card-img-top" alt="...">
+                <img src={{category.image}} alt="coverImage" class="card-img-top">
                 <div class="card-body">
                     <h3 >{{category.category_name}}</h3>
                     <p class="card-text">{{category.description}}</p>

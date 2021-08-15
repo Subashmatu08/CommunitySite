@@ -12,12 +12,20 @@ LANGUAGE_CHOICES = (
     ("JAVA", "Java"),
     ("JAVASCRIPT", "Javascript"),
     ("CPP", "CPP"),
+    ("OTHER", "other")
 )
 
 CODING_PLATFORMS = (
-    ("HACKERRANK", "HACKERRANK"),
-    ("CODECHEF", "CODECHEF"),
-    ("LEETCODE", "LEETCODE"),
+    ("HACKERRANK", "HackerRank"),
+    ("CODECHEF", "CodeChef"),
+    ("LEETCODE", "Leetcode"),
+    ("NONE", "None"),
+)
+
+DIFFICULTIES = (
+    ("DIFFICULT", "Difficult"),
+    ("INTERMEDIATE", "Intermediate"),
+    ("EASY", "Easy"),
 )
 
 # Create your models here.
@@ -43,8 +51,10 @@ class Blog(models.Model):
 class CodeGist(models.Model):
     post_ref = models.OneToOneField(Post, on_delete=models.CASCADE)
     coding_platform = models.CharField(choices=CODING_PLATFORMS, max_length=30)
-    problem_url = models.URLField(default="")
-    language = models.CharField(choices=LANGUAGE_CHOICES, max_length=20)
+    problem_url = models.URLField(default="", null=True)
+    language = models.CharField(choices=LANGUAGE_CHOICES, max_length=20,)
     analogy = models.CharField(max_length=250, default="")
     code_snippet = models.CharField(max_length=250, default="")
+    topic = models.CharField(max_length=50, null=True)
+    difficulty = models.CharField(choices=DIFFICULTIES, null=True, default="EASY", max_length=15)
 

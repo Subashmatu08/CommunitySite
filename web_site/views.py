@@ -10,7 +10,7 @@ from .forms import BlogForm, CodeGistForm, CreateUserForm, CustomAuthenticateFor
 from django.urls import reverse
 
 
-ROOT_PAGE_NAME = "CommunitySite | "
+ROOT_PAGE_NAME = "TheAmateurDevs | "
 
 # Create your views here.
 
@@ -100,6 +100,7 @@ def create_blog(request, category_name):
             post = models.Post.objects.create(category=category, post_type="BLOG", posted_by=request.user)
             my_blog = blog_form.save(commit=False)
             my_blog.post_ref = post
+            my_blog.content = my_blog.content.lstrip()
             my_blog.save()
             return redirect(reverse('blogs_page', kwargs={"category_name": category_name}))
         return render(request, "web_site/posts/create_blog.html", {"form" : blog_form, "page_name" : category_name + " | " + "create blog"})

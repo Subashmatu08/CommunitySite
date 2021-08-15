@@ -1,9 +1,16 @@
 {% extends "web_site/base.html" %}
 
 {% block content %}
-<div class="container-fluid">
-    Blog!
-   <p>{{content.title}}</p>
-   <p>{{content.description}}</p>
+<div class="container pt-3">
+   <div id="blogcontent">
+       {{content.content}}
+   </div>
+   <script>
+        let converter = new showdown.Converter();
+        converter.setFlavor('github');
+        let markdownContent = document.getElementById("blogcontent");
+        let result = converter.makeHtml(markdownContent.textContent.trim());
+        markdownContent.innerHTML = converter.makeHtml(result);
+   </script>
 </div>
 {% endblock %}

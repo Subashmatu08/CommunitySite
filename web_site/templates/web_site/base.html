@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{page_name}}</title>
     <link href="https://unpkg.com/@webpixels/css@1.0/dist/index.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.0/showdown.min.js"></script>
+    <link rel="stylesheet" href="{% static 'web_site/auth.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
 </head>
 
 <body>
