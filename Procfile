@@ -1,1 +1,2 @@
-web: gunicorn community_site.wsgi
+release: python3 manage.py migrate
+web: gunicorn gettingstarted.wsgi --preload --log-file -
