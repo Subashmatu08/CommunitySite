@@ -30,7 +30,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-hgw3+wg)^6j$p4)&ee7)%ppg99apj)m-ac=zo4sfl34sr)sbuh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'thedumbcoder.herokuapp.com',
