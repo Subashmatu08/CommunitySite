@@ -5,7 +5,7 @@ Production Settings for Heroku
 import environ
 
 # If using in your own project, update the project namespace below
-from gettingstarted.settings.base import *
+from community_site.settings.base import *
 
 env = environ.Env(
     # set casting, default value
