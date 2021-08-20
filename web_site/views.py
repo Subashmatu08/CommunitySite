@@ -10,7 +10,7 @@ from .forms import BlogForm, CodeGistForm, CreateUserForm, CustomAuthenticateFor
 from django.urls import reverse
 
 
-ROOT_PAGE_NAME = "TheAmateurDevs | "
+ROOT_PAGE_NAME = "TheDumbCoder | "
 
 # Create your views here.
 
