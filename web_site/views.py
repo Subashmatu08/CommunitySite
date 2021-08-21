@@ -65,7 +65,16 @@ def home(request):
 @login_required(login_url="login")
 def profile_view(request):
     user = request.user
-    return render(request, "web_site/profile.html", {"user" : user,})
+    blogs = []
+    gists = []
+    posts = models.Post.objects.filter(posted_by=request.user)
+    for post in posts:
+        if post.post_type == "BLOG":
+            blogs.append(models.Blog.objects.get(post_ref=post))
+        else:
+            gists.append(models.CodeGist.objects.get(post_ref=post))
+    return render(request, "web_site/profile.html", {"user" : user, "blogs" : blogs, "gists" : gists, "page_name" : ROOT_PAGE_NAME + " " + "Profile" })
+
 
 @login_required(login_url="login")
 def feed_page(request, category_name):
@@ -78,8 +87,15 @@ def blogs_page(request, category_name):
     posts = models.Post.objects.filter(category=category).filter(post_type="BLOG")
     blogs = []
     for post in posts:
-        blogs.append(models.Blog.objects.get(post_ref=post))
-    return render(request, "web_site/posts/blogs_page.html", {'blogs' : blogs, "category_name" : category_name, "page_name" : category_name + " | " +"blogs"})
+        blog = models.Blog.objects.get(post_ref=post)
+        blogs.append({
+            "id" : blog.id,
+            "author" : post.posted_by,
+            "title" : blog.title,
+            "description" : blog.description,
+            "content" : blog.content,
+        })
+    return render(request, "web_site/posts/blogs_page.html", {'blogs' : blogs, "category_name" : category_name, "page_name" : category_name + " | " +"articles"})
 
 @login_required(login_url="login")
 def code_gists_page(request, category_name):
@@ -87,7 +103,17 @@ def code_gists_page(request, category_name):
     posts = models.Post.objects.filter(category=category).filter(post_type="CODEGIST")
     code_gists = []
     for post in posts:
-        code_gists.append(models.CodeGist.objects.get(post_ref=post))
+        code_gist = models.CodeGist.objects.get(post_ref=post)
+        code_gists.append({
+            "author" : post.posted_by,
+            "coding_platform" : code_gist.coding_platform,
+            "problem_url" : code_gist.problem_url,
+            "code_snippet" : code_gist.code_snippet,
+            "difficulty" : code_gist.difficulty,
+            "language" : code_gist.language,
+            "topic" : code_gist.topic,
+            "id" : code_gist.id
+        })
     return render(request, "web_site/posts/code_gists.html", {'code_gists' : code_gists, "category_name" : category_name, "page_name" : category_name + " | " + "gists"})
 
 @login_required(login_url="login")

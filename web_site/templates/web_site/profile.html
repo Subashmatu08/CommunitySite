@@ -1,7 +1,111 @@
 {% extends "web_site/base.html" %}
 
 {% block content %}
-<div>
-    {{user}}
+<style>
+    .hide {
+        display: none;
+    }
+</style>
+<div class="container">
+    <div class="my-3">
+        <p class="text-dark">{{user.first_name}} {{user.last_name}}</p>
+        <p>@{{user}}</p>
+    </div>
+    <div>
+        <h5>My Posts</h5>
+        <div class="mt-3">
+            <div class="tab-buttons d-flex align-items-center justify-content-start">
+                <div class="tab-button cursor-pointer badge text-dark">
+                    Articles
+                </div>
+                <div class="tab-button cursor-pointer badge text-dark">
+                    CodeGists
+                </div>
+            </div>
+            <hr>
+            <div class="tabs mt-3">
+                <div class="tab">
+                    {% if blogs|length > 0 %}
+                    {% for blog in blogs %}
+                    <div class="card shadow-3">
+                        <div class="card-body">
+                            <h5>{{blog.title}}</h5>
+                            <p>{{blog.description}}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p>You haven't published any articles yet!!</p>
+                    {% endif %}
+                </div>
+                <div class="tab">
+                    {% if gists|length > 0 %}
+                        {% for gist in gists %}
+                        <a href="{% url 'view_code_gist' gist.id %}">
+                            <div class="card shadow-3">
+                                <div class="card-body">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            {{gist.topic}}
+                                        </div>
+                                        <div>
+                                            <span class="badge bg-primary">
+                                                {{gist.difficulty}}
+                                            </span>
+                                            <span class="badge bg-primary">
+                                                {{gist.language}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <p>{{gist.coding_platform}}</p>
+                                    </div>
+                                    <div>
+                                        <pre>{{gist.code_snippet}}</pre>
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <button class="btn btn-sm btn-success mx-2">Edit</button>
+                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    {% else %}
+                        <p>You haven't written any code gists yet!</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        let activeIndex = 0;
+
+        let lastIndex = -1;
+
+        const tabButtons = document.querySelectorAll(".tab-button");
+        const tabs = document.querySelectorAll(".tab");
+
+        console.log("SETTING UP!");
+        tabButtons[activeIndex].classList.add("bg-warning");
+        for (let i = 0; i < tabs.length; i++) {
+            if (i !== activeIndex) {
+                tabs[i].classList.add("hide");
+            }
+        }
+
+        tabButtons.forEach((tabButton, index) => {
+            tabButton.addEventListener("click", function (e) {
+                lastIndex = activeIndex;
+                activeIndex = index;
+                this.classList.add("bg-warning");
+                tabButtons[lastIndex].classList.remove("bg-warning");
+                tabs.forEach(tab => tab.classList.add("hide"));
+
+                tabs[activeIndex].classList.remove("hide");
+            })
+        });
+    </script>
 </div>
 {% endblock %}

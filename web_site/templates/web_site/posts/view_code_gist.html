@@ -2,25 +2,39 @@
 
 {% block content %}
 <style>
-    .box{
-        min-height: 100vh;
+    .hide{
+        display: none;
     }
 </style>
 <div class="container">
-    <div>
-        <a href="#codeContainer">code</a>
-        <a href="#gistContainer">summary</a>
+    <div class="my-3">
+        <span class="badge bg-primary">{{content.topic}}</span>
+        <span class="badge bg-primary">{{content.language}}</span>
+        <span class="badge bg-primary">{{content.difficulty}}</span>
     </div>
-    <div id="codeContainer" class="box">
-        <label for="code" class="form-label">Code Snippet</label>
-        <div id="code" class="border border-primary rounded">
-            {{content.code_snippet}}
+    <div class="tab-buttons d-flex align-items-center justify-content-start my-3">
+        <div class="tab-button cursor-pointer badge text-dark">
+            Code
+        </div>
+        <div class="tab-button cursor-pointer badge text-dark">
+            Summary
         </div>
     </div>
-    <div id="gistContainer" class="box">
-        <label for="codegist" class="form-label">Code Summary or Analogy</label>
-        <div id="codegist" class="border border-primary rounded">
-            {{content.analogy}}
+    <hr>
+    <div class="tabs">
+        <div class="tab">
+            <div id="codeContainer">
+                <div id="code">
+                    <pre><code>{{content.code_snippet}}</code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="tab">
+            <div id="gistContainer">
+                <div id="codegist">
+                    {{content.analogy}}
+                </div>
+            </div>
         </div>
     </div>
     <script>
@@ -29,6 +43,35 @@
         let markdownContent = document.getElementById("codegist");
         let result = converter.makeHtml(markdownContent.textContent.trim());
         markdownContent.innerHTML = converter.makeHtml(result);
+
+        let activeIndex = 0;
+
+        let lastIndex = -1;
+
+        const tabButtons = document.querySelectorAll(".tab-button");
+        const tabs = document.querySelectorAll(".tab");
+
+        console.log("SETTING UP!");
+        tabButtons[activeIndex].classList.add("bg-warning");
+        for (let i = 0; i < tabs.length; i++) {
+            if (i !== activeIndex) {
+                tabs[i].classList.add("hide");
+            }
+        }
+
+        tabButtons.forEach((tabButton, index) => {
+            tabButton.addEventListener("click", function (e) {
+                lastIndex = activeIndex;
+                activeIndex = index;
+                this.classList.add("bg-warning");
+                tabButtons[lastIndex].classList.remove("bg-warning");
+                tabs.forEach(tab => tab.classList.add("hide"));
+
+                tabs[activeIndex].classList.remove("hide");
+            })
+        });
+
+
     </script>
 </div>
 {% endblock %}

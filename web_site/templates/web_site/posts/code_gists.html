@@ -2,52 +2,68 @@
 
 {% block content %}
 <div class="container-fluid">
-    <!-- <a class="btn btn-sm btn-primary" href="{% url "create_gist" category_name %}">Create Gist</a> -->
     <div class="row py-3 gy-5">
-        <div class="col-sm-3 col-md-3" >
+        <div class="col-sm-3 col-md-2">
             <ul class="list-group shadow-2 rounded">
-                <a class="rounded-top" href="{% url "feed_page" category_name %}">
+                <a class="rounded-top" href="{% url 'feed_page' category_name %}">
                     <li class="list-group-item text-center">
-                        <!-- <a href="{% url "feed_page" category_name %}">Feed</a> -->
                         Feed
                     </li>
                 </a>
-                <a href="{% url "blogs_page" category_name %}">
+                <a href="{% url 'blogs_page' category_name %}">
                     <li class="list-group-item text-center">
-                        <!-- <a href="{% url "blogs_page" category_name %}">Blogs</a> -->
-                        Blogs
+                        Articles
                     </li>
                 </a>
-                <a class="rounded-bottom" href="{% url "code_gists_page" category_name %}">
+                <a class="rounded-bottom" href="{% url 'code_gists_page' category_name %}">
                     <li class="list-group-item text-center">
-                        <!-- <a href="{% url "code_gists_page" category_name %}">Gists</a> -->
-                        Gists
-                     </li>
+                        CodeGists
+                    </li>
                 </a>
             </ul>
-            <a class="rounded btn btn-outline-primary w-full mt-3" href="{% url "create_gist" category_name %}">
-                    <!-- <a href="{% url "code_gists_page" category_name %}">Gists</a> -->
-                    Create a Gist
+            <a class="rounded btn btn-outline-primary w-full mt-3" href="{% url 'create_gist' category_name %}">
+                Create a Gist
             </a>
         </div>
 
-        <div class="col-md-9">
-            <!-- <input type="text" class="form-control" placeholder="Search"> -->
+        <div class="col-md-10">
             <form class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-primary" type="submit">Search</button>
-              </form>
-            <h3 class="pt-3">Here are some Gists!</h3>
+            </form>
+            <h3 class="pt-3">CodeGists</h3>
             <div class="my-3">
-                {% for code_gist in code_gists %}
-                <a href="{% url 'view_code_gist' code_gist.id %}">
-                    <div class="card shadow-2 my-5">
-                        <div class="card-body">
-                            {{code_gist.coding_platform}}
+                {% for gist in code_gists %}
+                <div class="card shadow-3 my-2">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-grow-1">
+                                <h5>{{gist.topic}}</h5>
+                            </div>
+                            <div>
+                                <span class="badge bg-danger">
+                                    {{gist.difficulty}}
+                                </span>
+                                <span class="badge bg-primary">
+                                    {{gist.language}}
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <p>@{{gist.author}}</p>
+                        </div>
+                        <div>
+                            <p>{{gist.coding_platform}}</p>
+                        </div>
+                        <div>
+                            <pre>{{gist.code_snippet}}</pre>
+                        </div>
+                        <div>
+                            <a href="{% url 'view_code_gist' gist.id %}">Readmore...</a>
                         </div>
                     </div>
-                </a>
-            {% endfor %}
+                </div>
+                {% endfor %}
             </div>
         </div>
     </div>

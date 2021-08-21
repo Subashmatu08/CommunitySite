@@ -2,66 +2,47 @@
 
 {% block content %}
 <div class="container-fluid">
-    
+
     <div class="row py-3 gy-5">
-        <!-- <div class="col-3">
-            <div>
-                <ul class="list-group shadow-4">
-                    <li class="list-group-item">
-                        <a href="{% url "feed_page" category_name %}">Feed</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="{% url "blogs_page" category_name %}">blogs</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="{% url "code_gists_page" category_name %}">gists</a>
-                    </li>
-                  </ul>
-            </div>
-        </div> -->
-        <div class="col-sm-3 col-md-3" >
-            <!-- <a class="btn btn-sm btn-primary" href="{% url "create_blog" category_name %}">Create Blog</a> -->
+        <div class="col-sm-3 col-md-2">
             <ul class="list-group shadow-2 rounded">
-                <a class="rounded-top" href="{% url "feed_page" category_name %}">
+                <a class="rounded-top" href="{% url 'feed_page' category_name %}">
                     <li class="list-group-item text-center">
-                        <!-- <a href="{% url "feed_page" category_name %}">Feed</a> -->
                         Feed
                     </li>
                 </a>
-                <a href="{% url "blogs_page" category_name %}">
+                <a href="{% url 'blogs_page' category_name %}">
                     <li class="list-group-item text-center">
-                        <!-- <a href="{% url "blogs_page" category_name %}">Blogs</a> -->
                         Blogs
                     </li>
                 </a>
-                <a class="rounded-bottom" href="{% url "code_gists_page" category_name %}">
+                <a class="rounded-bottom" href="{% url 'code_gists_page' category_name %}">
                     <li class="list-group-item text-center">
-                        <!-- <a href="{% url "code_gists_page" category_name %}">Gists</a> -->
                         Gists
-                     </li>
+                    </li>
                 </a>
             </ul>
-            <a class="rounded my-3 shadow-2 w-full btn btn-outline-primary" href="{% url "create_blog" category_name %}">
-                    <!-- <a href="{% url "code_gists_page" category_name %}">Gists</a> -->
-                    Create A Blog
+            <a class="rounded my-3 shadow-2 w-full btn btn-outline-primary" href="{% url 'create_blog' category_name %}">
+                Write an article
             </a>
         </div>
 
-        <div class="col-md-9">
+        <div class="col-md-10">
             <form class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-primary" type="submit">Search</button>
-              </form>
-            <h3 class="pt-3">Here are some Blogs!</h3>
+            </form>
+            <h3 class="pt-3">Articles</h3>
             {% for blog in blogs %}
-                <a href="{% url 'view_blog' blog.id %}">
-                    <div class="card shadow-2 my-5">
-                        <div class="card-body">
-                            <h5 class="card-title">{{blog.title}}</h5>
-                            <p>{{blog.description}}</p>
-                        </div>
+            <a href="{% url 'view_blog' blog.id %}">
+                <div class="card shadow-2 my-5">
+                    <div class="card-body">
+                        <h6 class="my-2">{{blog.title}}</h6>
+                        <p>@{{blog.author}}</p>
+                        <p>{{blog.description}}</p>
                     </div>
-                </a>
+                </div>
+            </a>
             {% endfor%}
         </div>
     </div>

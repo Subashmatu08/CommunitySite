@@ -35,9 +35,9 @@ class BlogForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["title"].widget = forms.TextInput(attrs={"placeholder" : "Enter a title for blog", "class" : "form-control"})
+        self.fields["title"].widget = forms.TextInput(attrs={"placeholder" : "Enter a title for your article", "class" : "form-control"})
         self.fields["description"].widget = forms.TextInput(attrs={"placeholder" : "Description", "class" : "form-control"})
-        self.fields["content"].widget = forms.Textarea(attrs={"placeholder" : "Enter your blog content here! type markdown", "class" : "form-control"})
+        self.fields["content"].widget = forms.Textarea(attrs={"placeholder" : "Enter your article content here! type markdown", "class" : "form-control"})
 
 
 class CodeGistForm(forms.ModelForm):
