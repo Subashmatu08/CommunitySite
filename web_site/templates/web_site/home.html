@@ -4,27 +4,33 @@
 
 <div class="container">
     <div class="row py-3">
-        <div class="col-lg-3 col-md-2 col-sm-12">
+        <div class="col-lg-2 col-md-2 col-sm-12">
             <div class="my-5">
                 <h5>Hello, {{user.first_name}} 👋</h5>
             </div>
         </div>
-        <div class="col-lg-6 col-md-8 col-sm-12">
+        <div class="col-lg-7 col-md-8 col-sm-12">
             <!-- div. -->
             <div class="card shadow-3">
                 <div class="card-body">
                     <h4>Create Post</h4>
                     <div class="my-2">
-                        <span class="badge bg-warning">Tweet</span>
-                        <a href="{% url 'create_gist' %}">CodeGist</a>
-                        <a href="{% url 'create_blog' %}">Article</a>
+                        <a href="{% url 'create_blog' %}">
+                            <span class="badge cursor-pointer" style="color: orange; border: solid 1px orange;">
+                                <i class="far fa-file-alt"></i> article</span>
+                        </a>
+                        <a href="{% url 'create_gist' %}">
+                            <span class="badge cursor-pointer" style="color: orange; border: solid 1px orange; ">
+                                <i class="fas fa-code"></i> codegist
+                            </span>
+                        </a>
                     </div>
                     <div class="my-2">
                         <form action="" method="POST">
                             {% csrf_token %}
                             {{form.content}}
                             <div class="d-flex justify-content-end my-2">
-                                <button type="submit"  class="btn btn-sm btn-primary">
+                                <button type="submit" class="btn btn-sm btn-success">
                                     Post
                                 </button>
                             </div>
@@ -58,17 +64,17 @@
             </div>
         </div>
         <div class="col-lg-3 col-sm-12">
-            Suggestions
+            <h6>Suggestions</h6>
             <div class="my-3">
-                {% for sug in users %}
-                {% if sug.is_staff == False %}
-                <div class="card shadow-2 my-2">
-                    <div class="card-body">
+                <ul class="list-group">
+                    {% for sug in users %}
+                    {% if sug.is_staff == False %}
+                    <li class="list-group-item">
                         {{sug}}
-                    </div>
-                </div>
-                {% endif %}
-                {% endfor %}
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>
