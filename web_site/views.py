@@ -1,3 +1,4 @@
+from web_site.utils import get_user_posts, is_friend
 from django.contrib.auth.forms import UserCreationForm
 from web_site import models
 from django.contrib import messages
@@ -6,7 +7,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .forms import BlogForm, CodeGistForm, CreateUserForm, CustomAuthenticateForm
+from .forms import BlogForm, CodeGistForm, CreateUserForm, CustomAuthenticateForm, TweetCreationForm
 from django.urls import reverse
 
 
@@ -34,7 +35,6 @@ def login_page(request):
         else:
             return render(request, 'web_site/auth/login.html', {'form': form, 'page_name' : PAGENAME, })
 
-
 def register_page(request):
     PAGENAME = ROOT_PAGE_NAME + "Register"
     if request.user.is_authenticated:
@@ -55,25 +55,56 @@ def register_page(request):
 @login_required(login_url="login")
 def home(request):
     PAGE_NAME = ROOT_PAGE_NAME + "Home"
-    categories = models.Category.objects.all()
+    posts = get_user_posts(request.user)
+    form = TweetCreationForm()
     context = {
-        "categories" : categories,
-        "page_name" : PAGE_NAME
+        "page_name" : PAGE_NAME,
+        'posts' : posts,
+        "user" : request.user,
+        "users" : User.objects.all(),
+        "form" : form
     }
-    return render(request, "web_site/home.html", context)
+    if request.method == 'POST':
+        form = TweetCreationForm(request.POST)
+        if form.is_valid():
+            my_tweet = form.save(commit=False)
+            post = models.Post.objects.create(posted_by=request.user, post_type="TWEET")
+            my_tweet.post_ref = post
+            my_tweet.save()
+            return redirect('home')
+        context["form"] = form
+        return render(request, "web_site/home.html", context)
+    return render(request, "web_site/home.html",  context)
+
+@login_required(login_url="login")
+def view_other_profile(request, username):
+    user  =  User.objects.get(username=username)
+    friend = is_friend(request.user, user)
+    context = {
+        'self' : request.user == user,
+        'friend' : friend,
+        'user' : user,
+        'page_name' : ROOT_PAGE_NAME + " " + username
+    }
+    return render(request, "web_site/profile.html", context)
+
 
 @login_required(login_url="login")
 def profile_view(request):
     user = request.user
     blogs = []
     gists = []
+    tweets = []
     posts = models.Post.objects.filter(posted_by=request.user)
+    friend = is_friend(request.user, request.user)
     for post in posts:
         if post.post_type == "BLOG":
             blogs.append(models.Blog.objects.get(post_ref=post))
-        else:
+        elif post.post_type == "CODEGIST":
             gists.append(models.CodeGist.objects.get(post_ref=post))
-    return render(request, "web_site/profile.html", {"user" : user, "blogs" : blogs, "gists" : gists, "page_name" : ROOT_PAGE_NAME + " " + "Profile" })
+        elif post.post_type == "TWEET" :
+            tweets.append(models.Tweet.objects.get(post_ref=post))
+    return render(request, "web_site/profile.html", {"self": True, "user" : user, "blogs" : blogs, "gists" : gists, "tweets" : tweets, "page_name" : ROOT_PAGE_NAME + " " + "Profile", "friend" : friend })
 
 
 @login_required(login_url="login")
@@ -106,8 +137,6 @@ def code_gists_page(request, category_name):
         code_gist = models.CodeGist.objects.get(post_ref=post)
         code_gists.append({
             "author" : post.posted_by,
-            "coding_platform" : code_gist.coding_platform,
-            "problem_url" : code_gist.problem_url,
             "code_snippet" : code_gist.code_snippet,
             "difficulty" : code_gist.difficulty,
             "language" : code_gist.language,
@@ -117,35 +146,33 @@ def code_gists_page(request, category_name):
     return render(request, "web_site/posts/code_gists.html", {'code_gists' : code_gists, "category_name" : category_name, "page_name" : category_name + " | " + "gists"})
 
 @login_required(login_url="login")
-def create_blog(request, category_name):
+def create_blog(request):
     blog_form = BlogForm()
     if request.method == "POST":
         blog_form = BlogForm(request.POST)
         if blog_form.is_valid():
-            category = models.Category.objects.get(category_name=category_name)
-            post = models.Post.objects.create(category=category, post_type="BLOG", posted_by=request.user)
+            post = models.Post.objects.create(post_type="BLOG", posted_by=request.user)
             my_blog = blog_form.save(commit=False)
             my_blog.post_ref = post
             my_blog.content = my_blog.content.lstrip()
             my_blog.save()
-            return redirect(reverse('blogs_page', kwargs={"category_name": category_name}))
-        return render(request, "web_site/posts/create_blog.html", {"form" : blog_form, "page_name" : category_name + " | " + "create blog"})
-    return render(request, "web_site/posts/create_blog.html",  {"form" : blog_form, "page_name" : category_name + " | " + "create blog"})
+            return redirect(reverse('home'))
+        return render(request, "web_site/posts/create_blog.html", {"form" : blog_form, "page_name" : ROOT_PAGE_NAME + " create blog"})
+    return render(request, "web_site/posts/create_blog.html",  {"form" : blog_form, "page_name" : ROOT_PAGE_NAME + " create blog"})
     
 @login_required(login_url="login")
-def create_code_gist(request, category_name):
+def create_code_gist(request):
     gist_form = CodeGistForm()
     if request.method == "POST":
         gist_form = CodeGistForm(request.POST)
         if gist_form.is_valid() :
-            category = models.Category.objects.get(category_name=category_name)
-            post = models.Post.objects.create(category=category, post_type="CODEGIST", posted_by=request.user)
+            post = models.Post.objects.create(post_type="CODEGIST", posted_by=request.user)
             code_gist = gist_form.save(commit=False)
             code_gist.post_ref = post
             code_gist.save()
-            return redirect(reverse('code_gists_page', kwargs={"category_name": category_name}))    
-        return render(request, "web_site/posts/create_code_gist.html", {"form" : gist_form, "page_name" : category_name + " | " + "create gist"})
-    return render(request, "web_site/posts/create_code_gist.html", {"form" : gist_form, "page_name" : category_name + " | " + "create gist"})
+            return redirect(reverse('home'))    
+        return render(request, "web_site/posts/create_code_gist.html", {"form" : gist_form, "page_name" : ROOT_PAGE_NAME + " create gist"})
+    return render(request, "web_site/posts/create_code_gist.html", {"form" : gist_form, "page_name" : ROOT_PAGE_NAME + " create gist"})
 
 
 def view_blog(request, blog_id):

@@ -3,19 +3,85 @@
 {% block content %}
 
 <div class="container">
-    <div class="row gy-5 py-5">
-        {% for category in categories %}
-        <a class="col-lg-4 col-md-6 col-sm-12 card-group " href="{% url "feed_page" category.category_name %}">
-            <div class="card shadow-2 " style="min-height:50vh;">
-                <img src={{category.image}} alt="coverImage" class="card-img-top">
+    <div class="row py-3">
+        <div class="col-lg-3 col-md-2 col-sm-12">
+            <div class="my-5">
+                <h5>Hello, {{user.first_name}} 👋</h5>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <!-- div. -->
+            <div class="card shadow-3">
                 <div class="card-body">
-                    <h3 >{{category.category_name}}</h3>
-                    <p class="card-text">{{category.description}}</p>
+                    <h4>Create Post</h4>
+                    <div class="my-2">
+                        <span class="badge bg-warning">Tweet</span>
+                        <a href="{% url 'create_gist' %}">CodeGist</a>
+                        <a href="{% url 'create_blog' %}">Article</a>
+                    </div>
+                    <div class="my-2">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            {{form.content}}
+                            <div class="d-flex justify-content-end my-2">
+                                <button type="submit"  class="btn btn-sm btn-primary">
+                                    Post
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </a>
-        {% endfor %}
+            <div>
+                {% for post in posts %}
+                <div class="card my-2 shadow-2">
+                    <div class="card-body">
+                        {% if post.post_type == "TWEET" %}
+                        <h6>@{{post.author}}</h6>
+                        <div class="markdown">
+                            {{post.sub_post.content}}
+                        </div>
+                        {% elif post.post_type == "CODEGIST" %}
+                        <h6>{{post.sub_post.topic}}</h6>
+                        <p class="fs-3 font-light">@{{post.author}}</p>
+                        <pre><code>{{post.sub_post.code_snippet}}</code></pre>
+                        <p class="text-end"><a href="{% url 'view_code_gist' post.sub_post.id %}">View Post</a></p>
+                        {% elif post.post_type == "BLOG" %}
+                        <h6>{{post.sub_post.title}}</h6>
+                        <p class="fs-2 font-light">@{{post.author}}</p>
+                        <p>{{post.sub_post.description}}</p>
+                        <p class="text-end"><a href="{% url 'view_blog'  post.sub_post.id %}">Readmore</a></p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-12">
+            Suggestions
+            <div class="my-3">
+                {% for sug in users %}
+                {% if sug.is_staff == False %}
+                <div class="card shadow-2 my-2">
+                    <div class="card-body">
+                        {{sug}}
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
     </div>
+
+    <script>
+        let converter = new showdown.Converter();
+        converter.setFlavor("github");
+        let markdownContent = document.querySelectorAll(".markdown");
+        markdownContent.forEach(item => {
+            item.innerHTML = converter.makeHtml(item.textContent.trim());
+        })
+    </script>
+
 </div>
 
 {% endblock %}

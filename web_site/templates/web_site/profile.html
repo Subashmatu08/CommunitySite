@@ -11,10 +11,23 @@
         <p class="text-dark">{{user.first_name}} {{user.last_name}}</p>
         <p>@{{user}}</p>
     </div>
+    {% if self != True %}
+    <div class="my-2">
+        {% if friend == True %}
+        <button class="btn btn-sm btn-outline-primary">Remove Friend</button>
+        {% else %}
+        <button class="btn btn-sm btn-primary">Add Friend</button>
+        {% endif %}
+    </div>
+    {% endif %}
+    {% if self == True or friend == True %}
     <div>
         <h5>My Posts</h5>
         <div class="mt-3">
             <div class="tab-buttons d-flex align-items-center justify-content-start">
+                <div class="tab-button cursor-pointer badge text-dark">
+                    Tweets
+                </div>
                 <div class="tab-button cursor-pointer badge text-dark">
                     Articles
                 </div>
@@ -24,6 +37,20 @@
             </div>
             <hr>
             <div class="tabs mt-3">
+                <div class="tab">
+                    {% if tweets|length > 0 %}
+                    {% for tweet in tweets %}
+                    <div class="card shadow-3">
+                        <div class="card-body">
+                            <h5>@{{user}}</h5>
+                            <div class="markdown">{{tweet.content}}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p>You haven't written any tweets yet!!</p>
+                    {% endif %}
+                </div>
                 <div class="tab">
                     {% if blogs|length > 0 %}
                     {% for blog in blogs %}
@@ -40,44 +67,45 @@
                 </div>
                 <div class="tab">
                     {% if gists|length > 0 %}
-                        {% for gist in gists %}
-                        <a href="{% url 'view_code_gist' gist.id %}">
-                            <div class="card shadow-3">
-                                <div class="card-body">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            {{gist.topic}}
-                                        </div>
-                                        <div>
-                                            <span class="badge bg-primary">
-                                                {{gist.difficulty}}
-                                            </span>
-                                            <span class="badge bg-primary">
-                                                {{gist.language}}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex">
-                                        <p>{{gist.coding_platform}}</p>
+                    {% for gist in gists %}
+                    <a href="{% url 'view_code_gist' gist.id %}">
+                        <div class="card shadow-3">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="flex-grow-1">
+                                        {{gist.topic}}
                                     </div>
                                     <div>
-                                        <pre>{{gist.code_snippet}}</pre>
-                                    </div>
-                                    <div class="d-flex justify-content-end">
-                                        <button class="btn btn-sm btn-success mx-2">Edit</button>
-                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                        <span class="badge bg-primary">
+                                            {{gist.difficulty}}
+                                        </span>
+                                        <span class="badge bg-primary">
+                                            {{gist.language}}
+                                        </span>
                                     </div>
                                 </div>
+                                <div class="d-flex">
+                                    <p>{{gist.coding_platform}}</p>
+                                </div>
+                                <div>
+                                    <pre>{{gist.code_snippet}}</pre>
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <button class="btn btn-sm btn-success mx-2">Edit</button>
+                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                </div>
                             </div>
-                        </a>
-                        {% endfor %}
+                        </div>
+                    </a>
+                    {% endfor %}
                     {% else %}
-                        <p>You haven't written any code gists yet!</p>
+                    <p>You haven't written any code gists yet!</p>
                     {% endif %}
                 </div>
             </div>
         </div>
     </div>
+    {% endif %}
     <script>
 
         let activeIndex = 0;
@@ -106,6 +134,19 @@
                 tabs[activeIndex].classList.remove("hide");
             })
         });
+
+
+        let converter = new showdown.Converter()
+
+        converter.setFlavor('github');
+
+        let markdownItems = document.querySelectorAll(".markdown");
+
+        markdownItems.forEach(item => {
+            item.innerHTML = converter.makeHtml(item.textContent);
+        })
+
+
     </script>
 </div>
 {% endblock %}
