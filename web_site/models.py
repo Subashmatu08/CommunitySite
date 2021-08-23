@@ -39,6 +39,7 @@ class Category(models.Model):
 
 class Post(models.Model):
     post_type = models.CharField(choices=POST_CHOICES, max_length=10)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     posted_by = models.ForeignKey(User, on_delete=models.CASCADE)
     posted_on = models.DateTimeField(auto_now_add=True, default=None)
 
