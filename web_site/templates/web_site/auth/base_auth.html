@@ -2,62 +2,312 @@
 
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{page_name}}</title>
+    <link
+      href="https://unpkg.com/@webpixels/css@1.0/dist/index.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://use.fontawesome.com/releases/v5.0.6/css/all.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'web_site/auth.css' %}" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{page_name}}</title>
-  <link href="https://unpkg.com/@webpixels/css@1.0/dist/index.css" rel="stylesheet" />
-  <link rel="stylesheet" href="{% static 'web_site/auth.css' %}">
-</head>
-
-<body>
-  <main>
-    <header style="min-height: 8vh; background-color: whitesmoke;">
-      <nav class="navbar navbar-expand-lg " style="background-color: #fcd538;">
-        <div class="container-fluid">
-          <h3>
-            <a class="navbar-brand text-dark" href="#">
-              <span><</span>THE DUMB CODER<span>/></span>
-            </a>
+  <body>
+    <main>
+      <header style="min-height: 8vh; background-color: whitesmoke">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+          <div class="container-fluid">
+            <h3>
+              <a class="navbar-brand text-dark" href="#">
+                <span><</span>TheDumbCoder<span>/></span>
+              </a>
+            </h3>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#about"
+                    >About</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'register' %}#joinus"
+                    >Join Us</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <!-- <img src="{% static 'web_site/hello.svg' %}" alt="" /> 
+       style="background-color: #fcd538"
+      -->
+      <section class="container">
+        <div class="section pt-10">
+          <h2 class="text-center fw-bolder display-5">
+            Make Your Opinion Matter with<br />
+            <span class="text-primary"
+              ><span><</span>TheDumbCoder<span>/></span></span
+            >
+          </h2>
+          <h3 class="text-muted text-center pt-3">
+            We bring to you a platform to share and<br />
+            learn all the great things about coding !
           </h3>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#about">About</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'register' %}#joinus">Join Us</a>
-              </li>
-            </ul>
+          <div class="hero-btn text-center pt-10">
+            <a
+              href="{% url 'register' %}#joinus"
+              type="button"
+              class="btn btn-primary mt-5 mt-md-0"
+            >
+              Join Us
+            </a>
+            <button type="button" class="btn btn-secondary mt-5 mt-md-0">
+              View on Github
+            </button>
+          </div>
+          <!-- video insert -->
+          <div class="opening-img d-flex justify-content-center">
+            <img
+              src="{% static 'web_site/landing.jpg' %}"
+              class="py-10 img"
+              alt=""
+              style="height: 80vh"
+            />
           </div>
         </div>
-      </nav>
-    </header>
-    <section id="about" >
-      <div class="container">
-        About
-      </div>
-    </section>
-    <section id="joinus" class="">
-      <div class="container d-flex align-items-center">
-        <div class="flex-grow-1 row align-items-center" style="height: 90vh;">
-          <div class="col-lg-6 col-sm-12">
-            <h1 class="display-4 text-center pt-5">BaseAuth</h1>
-          </div>
-          <div class="col-lg-6 col-sm-12">
-            {% block content %}
-            {% endblock %}
+        <!-- Feature Section -->
+        <div class="section pt-3" id="about">
+          <h1 class="text-center fw-bolder display-5">
+            Everything Great About This Platform
+          </h1>
+          <h3 class="text-muted text-center pt-3 text-break">
+            We made sure that this helps the coder in you in every way possible
+            !
+          </h3>
+          <div class="fs-cards py-10">
+            <!-- Row 1 -->
+            <div class="row g-2">
+              <div class="col-md-4">
+                <div class="card flex-column p-5 border-0">
+                  <div class="icon text-center py-3">
+                    <span class="fa-stack">
+                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      <i class="far fa-star text-white fa-stack-1x"></i>
+                    </span>
+                  </div>
+                  <h3 class="text-center py-2 fw-bold">Self Growth</h3>
+                  <h5 class="text-center text-muted py-2">
+                    Read Tons of articles and opinions on a vast number of
+                    topics.
+                  </h5>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card flex-column p-5 border-0">
+                  <div class="icon text-center py-3">
+                    <span class="fa-stack">
+                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      <i class="far fa-paper-plane text-white fa-stack-1x"></i>
+                    </span>
+                  </div>
+                  <h3 class="text-center py-2 fw-bold">Seek Help</h3>
+                  <h5 class="text-center text-muted py-2">
+                    Stuck on a problem? We got you covered, search through the
+                    vast number of competetive questions and their answers as
+                    well as an explaination on how to do it!
+                  </h5>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card flex-column p-5 border-0">
+                  <div class="icon text-center py-3">
+                    <span class="fa-stack">
+                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      <i class="fab fa-angellist text-white fa-stack-1x"></i>
+                    </span>
+                  </div>
+                  <h3 class="text-center py-2 fw-bold">Seek and Learn</h3>
+                  <h5 class="text-center text-muted py-2">
+                    See what your friends are upto and maybe help them out .
+                  </h5>
+                </div>
+              </div>
+            </div>
+            <!-- Row 2 -->
+            <div class="row g-2">
+              <div class="col-md-4">
+                <div class="card flex-column p-5 border-0">
+                  <div class="icon text-center py-3">
+                    <span class="fa-stack">
+                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      <i class="far fa-bell text-white fa-stack-1x"></i>
+                    </span>
+                  </div>
+                  <h3 class="text-center py-2 fw-bold">Share Your Thoughts</h3>
+                  <h5 class="text-center text-muted py-2">
+                    Share your thoughts and opinions, also help others code by
+                    addings gists and writing articles
+                  </h5>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card flex-column p-5 border-0">
+                  <div class="icon text-center py-3">
+                    <span class="fa-stack">
+                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      <i class="fas fa-bicycle text-white fa-stack-1x"></i>
+                    </span>
+                  </div>
+                  <h3 class="text-center py-2 fw-bold">Test Your Code</h3>
+                  <h5 class="text-center text-muted py-2">
+                    You can check your code with our inbuilt compiler .
+                  </h5>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card flex-column p-5 border-0">
+                  <div class="icon text-center py-3">
+                    <span class="fa-stack">
+                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      <i class="fa fa-lock text-white fa-stack-1x"></i>
+                    </span>
+                  </div>
+                  <h3 class="text-center py-2 fw-bold">
+                    Share code with Friends
+                  </h3>
+                  <h5 class="text-center text-muted py-2">
+                    Share your code with your friends !
+                  </h5>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-  </main>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+        <hr class="my-10" />
 
+        <!-- Explainatory Section -->
+
+        <div class="section">
+          <h1 class="text-center fw-bolder display-5">What We offer!</h1>
+          <h3 class="text-muted text-center pt-3 text-break">
+            We offer many things to help you code, Take a look...
+          </h3>
+          <div class="explain-cards py-10">
+            <div class="card mb-3 border-0 py-10">
+              <div class="row g-0">
+                <div class="col-md-6">
+                  <div class="card-body">
+                    <p class="card-text">
+                      <small class="text-primary fw-bold"
+                        >Write Reviews and Blogs</small
+                      >
+                    </p>
+                    <h5 class="card-title display-6">Share Code</h5>
+                    <p class="card-text text-muted fw-medium">
+                      You can share your reviews and write blogs on various
+                      number of topics with your friends.
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <img
+                    src="{% static 'web_site/learn.jpg' %}"
+                    class="img-fluid rounded-end"
+                    alt="..."
+                  />
+                </div>
+              </div>
+            </div>
+            <hr class="px-2 bg-secondary" />
+            <div class="card mb-3 border-0 py-10">
+              <div class="row g-0">
+                <div class="col-md-6">
+                  <img
+                    src="{% static 'web_site/gists-blogs.jpg' %}"
+                    class="img-fluid rounded-start"
+                    alt="..."
+                  />
+                </div>
+                <div class="col-md-6">
+                  <div class="card-body">
+                    <p class="card-text">
+                      <small class="text-primary fw-bold"
+                        >Write Gists and Articles</small
+                      >
+                    </p>
+                    <h5 class="card-title display-6">Share Your Thoughts</h5>
+                    <p class="card-text text-muted fw-medium">
+                      Write gists that could help others find their way through
+                      and publish articles !
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr class="px-2 bg-secondary" />
+
+            <div class="card mb-3 border-0 pt-md-10">
+              <div class="row g-0">
+                <div class="col-md-6">
+                  <div class="card-body">
+                    <p class="card-text">
+                      <small class="text-primary fw-bold">Share a Tweet</small>
+                    </p>
+                    <h5 class="card-title display-6">Opinions Always</h5>
+                    <p class="card-text text-muted fw-medium">
+                      Share your journey through tweets, share your opinions
+                      through tweets, share random facts through tweets....its
+                      all on you!
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <img
+                    src="{% static 'web_site/share.jpg' %}"
+                    class="img-fluid rounded-end"
+                    alt="..."
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="my-10" />
+      </section>
+      <section id="joinus" class="joinus">
+        <div class="container d-flex align-items-center">
+          <div
+            class="flex-grow-1 row align-items-center"
+            style="min-height: 90vh"
+          >
+            <div class="col-lg-6 col-sm-12">
+              <img src="{% static 'web_site/join.jpg' %}" alt="" />
+            </div>
+            <div class="col-lg-6 col-sm-12">
+              {% block content %} {% endblock %}
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>
